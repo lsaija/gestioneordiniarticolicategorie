@@ -1,4 +1,5 @@
 package it.prova.gestioneordiniarticolicategorie.model;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
@@ -23,7 +24,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 @Entity
 @Table(name = "categoria")
 public class Categoria {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -42,11 +43,11 @@ public class Categoria {
 	private Set<Articolo> articoli = new HashSet<Articolo>();
 
 	public Categoria() {
-		
+
 	}
 
 	public Categoria(String descrizione, String codice) {
-		
+
 		this.descrizione = descrizione;
 		this.codice = codice;
 	}

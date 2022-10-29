@@ -17,12 +17,10 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
-
 @Entity
 @Table(name = "ordine")
 public class Ordine {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
@@ -49,7 +47,7 @@ public class Ordine {
 	}
 
 	public Ordine(String nomeDestinatario, String indirizzoDiSpedizione, Date dataScadenza) {
-		
+
 		this.nomeDestinatario = nomeDestinatario;
 		this.indirizzoDiSpedizione = indirizzoDiSpedizione;
 		this.dataScadenza = dataScadenza;
@@ -118,6 +116,5 @@ public class Ordine {
 	public void setArticoli(Set<Articolo> articoli) {
 		this.articoli = articoli;
 	}
-
 
 }

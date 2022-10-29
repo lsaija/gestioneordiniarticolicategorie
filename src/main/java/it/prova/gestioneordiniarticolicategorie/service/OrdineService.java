@@ -2,11 +2,9 @@ package it.prova.gestioneordiniarticolicategorie.service;
 
 import java.util.List;
 
-
 import it.prova.gestioneordiniarticolicategorie.dao.ordine.OrdineDAO;
 
 import it.prova.gestioneordiniarticolicategorie.model.Ordine;
-
 
 public interface OrdineService {
 	public List<Ordine> listAll() throws Exception;
@@ -21,5 +19,6 @@ public interface OrdineService {
 
 	// per injection
 	public void setOrdineDAO(OrdineDAO ordineDAO);
+
 	public Ordine caricaSingoloElementoEagerArticoli(Long id) throws Exception;
 }

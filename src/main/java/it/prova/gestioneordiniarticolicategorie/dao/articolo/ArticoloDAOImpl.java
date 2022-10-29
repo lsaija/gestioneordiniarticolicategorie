@@ -9,7 +9,7 @@ import it.prova.gestioneordiniarticolicategorie.model.Articolo;
 import it.prova.gestioneordiniarticolicategorie.model.Categoria;
 import it.prova.gestioneordiniarticolicategorie.model.Ordine;
 
-public class ArticoloDAOImpl implements ArticoloDAO{
+public class ArticoloDAOImpl implements ArticoloDAO {
 	private EntityManager entityManager;
 
 	@Override
@@ -50,30 +50,30 @@ public class ArticoloDAOImpl implements ArticoloDAO{
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-	
+
 	@Override
 	public Articolo findByIdFetchingCategorie(Long idArticolo) {
-		TypedQuery<Articolo> query=entityManager.createQuery("from Articolo a left join fetch a.categorie left join fetch a.ordine where a.id = ?1", Articolo.class);
+		TypedQuery<Articolo> query = entityManager.createQuery(
+				"from Articolo a left join fetch a.categorie left join fetch a.ordine where a.id = ?1", Articolo.class);
 		query.setParameter(1, idArticolo);
 		return query.getResultStream().findFirst().orElseGet(null);
 	}
-	
-	
+
 	@Override
-	public void deleteArticoliFromOrder(Long idOrdine) throws Exception {
+	public void deleteArticoloFromOrder(Long idOrdine, Long idArticolo) throws Exception {
 		if (idOrdine < 0) {
 			throw new Exception("Problema valore in input");
 		}
-		entityManager.createNativeQuery("delete from articolo where ordine_id=?1").setParameter(1, idOrdine).executeUpdate();
-		
-	}
-	
-	@Override
-	public void deleteCategoryFromArticolo(Long idCategoria,Long idArticolo) throws Exception {
-		entityManager.createNativeQuery("delete from articolo_categoria where categoria_id=?1 and articolo_id=?2").setParameter(1, idCategoria).setParameter(2, idArticolo)
-				.executeUpdate();
-		this.delete(this.get(idCategoria));
+		entityManager.createNativeQuery("delete from articolo a where ordine_id=?1 and a.id=?2")
+				.setParameter(1, idOrdine).setParameter(2, idArticolo).executeUpdate();
+
 	}
 
+	@Override
+	public void deleteCategoryFromArticolo(Long idCategoria, Long idArticolo) throws Exception {
+		entityManager.createNativeQuery("delete from articolo_categoria where categoria_id=?1 and articolo_id=?2")
+				.setParameter(1, idCategoria).setParameter(2, idArticolo).executeUpdate();
+		this.delete(this.get(idCategoria));
+	}
 
 }

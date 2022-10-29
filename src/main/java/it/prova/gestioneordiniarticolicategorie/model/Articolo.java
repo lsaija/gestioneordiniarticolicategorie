@@ -1,4 +1,5 @@
 package it.prova.gestioneordiniarticolicategorie.model;
+
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
@@ -19,8 +20,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-
 
 @Entity
 @Table(name = "articolo")
@@ -53,11 +52,11 @@ public class Articolo {
 	private Set<Categoria> categorie = new HashSet<Categoria>();
 
 	public Articolo() {
-		
+
 	}
 
 	public Articolo(String descrizione, String numeroSeriale, int prezzoSingolo, Date dataInserimento, Ordine ordine) {
-		
+
 		this.descrizione = descrizione;
 		this.numeroSeriale = numeroSeriale;
 		this.prezzoSingolo = prezzoSingolo;
@@ -136,7 +135,7 @@ public class Articolo {
 	public void setCategorie(Set<Categoria> categorie) {
 		this.categorie = categorie;
 	}
-	
+
 	public void addToCategorie(Categoria categoriaInstance) {
 		this.categorie.add(categoriaInstance);
 		categoriaInstance.getArticoli().add(this);
@@ -146,6 +145,5 @@ public class Articolo {
 		this.categorie.remove(categoriaInstance);
 		categoriaInstance.getArticoli().remove(this);
 	}
-
 
 }

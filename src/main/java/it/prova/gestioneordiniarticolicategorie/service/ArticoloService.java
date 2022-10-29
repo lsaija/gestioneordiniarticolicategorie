@@ -6,9 +6,6 @@ import it.prova.gestioneordiniarticolicategorie.dao.articolo.ArticoloDAO;
 import it.prova.gestioneordiniarticolicategorie.model.Articolo;
 import it.prova.gestioneordiniarticolicategorie.model.Categoria;
 
-
-
-
 public interface ArticoloService {
 	public List<Articolo> listAll() throws Exception;
 
@@ -22,12 +19,12 @@ public interface ArticoloService {
 
 	// per injection
 	public void setArticoloDAO(ArticoloDAO articoloDAO);
-	
+
 	public Articolo caricaSingoloElementoEagerCategorie(Long idArticolo) throws Exception;
-	
-	public void rimozioneArticoliDaOrdine(Long idOrdine) throws Exception;
+
+	public void rimozioneArticoloDaOrdine(Long idOrdine, Long idArticolo) throws Exception;
 
 	public void aggiungiCategoriaAdArticolo(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
-	
-	public void rimuoviCategoria(Articolo articoloInstance,Categoria  categoriaInstance) throws Exception ;
+
+	public void rimuoviCategoriaDaArticolo(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
 }

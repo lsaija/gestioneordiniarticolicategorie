@@ -7,7 +7,7 @@ import javax.persistence.TypedQuery;
 
 import it.prova.gestioneordiniarticolicategorie.model.Categoria;
 
-public class CategoriaDAOImpl implements CategoriaDAO{
+public class CategoriaDAOImpl implements CategoriaDAO {
 
 	private EntityManager entityManager;
 
@@ -49,19 +49,19 @@ public class CategoriaDAOImpl implements CategoriaDAO{
 	public void setEntityManager(EntityManager entityManager) {
 		this.entityManager = entityManager;
 	}
-	
+
 	@Override
 	public Categoria findByIdFetchingArticoli(Long idCategoria) throws Exception {
-		TypedQuery<Categoria> query = entityManager
-				.createQuery("select c FROM Categoria c left join fetch c.articoli a where c.id = :idCategoria", Categoria.class);
+		TypedQuery<Categoria> query = entityManager.createQuery(
+				"select c FROM Categoria c left join fetch c.articoli a where c.id = :idCategoria", Categoria.class);
 		query.setParameter("idCategoria", idCategoria);
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
-	
+
 	@Override
-	public void deleteArticoloFromCategoria(Long idArticolo,Long idCategoria) throws Exception {
-		entityManager.createNativeQuery("delete from articolo_categoria where articolo_id=?1 and categoria_id=?2").setParameter(1, idArticolo).setParameter(2, idCategoria)
-				.executeUpdate();
+	public void deleteArticoloFromCategoria(Long idArticolo, Long idCategoria) throws Exception {
+		entityManager.createNativeQuery("delete from articolo_categoria where articolo_id=?1 and categoria_id=?2")
+				.setParameter(1, idArticolo).setParameter(2, idCategoria).executeUpdate();
 		this.delete(this.get(idCategoria));
 	}
 }

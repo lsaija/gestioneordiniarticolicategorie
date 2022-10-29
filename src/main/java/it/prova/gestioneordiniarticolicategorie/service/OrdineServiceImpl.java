@@ -9,11 +9,10 @@ import it.prova.gestioneordiniarticolicategorie.dao.ordine.OrdineDAO;
 import it.prova.gestioneordiniarticolicategorie.model.Categoria;
 import it.prova.gestioneordiniarticolicategorie.model.Ordine;
 
+public class OrdineServiceImpl implements OrdineService {
 
-public class OrdineServiceImpl implements OrdineService{
-	
-private OrdineDAO ordineDAO;
-	
+	private OrdineDAO ordineDAO;
+
 	@Override
 	public void setOrdineDAO(OrdineDAO ordineDAO) {
 		this.ordineDAO = ordineDAO;
@@ -122,7 +121,6 @@ private OrdineDAO ordineDAO;
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-	
 
 	public Ordine caricaSingoloElementoEagerArticoli(Long id) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
@@ -140,7 +138,5 @@ private OrdineDAO ordineDAO;
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-
-
 
 }

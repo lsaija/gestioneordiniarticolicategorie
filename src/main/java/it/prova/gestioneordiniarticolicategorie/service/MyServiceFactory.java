@@ -6,8 +6,8 @@ public class MyServiceFactory {
 
 	private static OrdineService ordineServiceInstance = null;
 	private static ArticoloService articoloServiceInstance = null;
-    private static CategoriaService categoriaServiceInstance=null;
-    
+	private static CategoriaService categoriaServiceInstance = null;
+
 	public static OrdineService getOrdineServiceInstance() {
 		if (ordineServiceInstance == null)
 			ordineServiceInstance = new OrdineServiceImpl();
@@ -25,7 +25,7 @@ public class MyServiceFactory {
 
 		return categoriaServiceInstance;
 	}
-	
+
 	public static ArticoloService getArticoloServiceInstance() {
 		if (articoloServiceInstance == null)
 			articoloServiceInstance = new ArticoloServiceImpl();

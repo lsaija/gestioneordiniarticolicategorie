@@ -9,10 +9,9 @@ import it.prova.gestioneordiniarticolicategorie.dao.categoria.CategoriaDAO;
 import it.prova.gestioneordiniarticolicategorie.model.Articolo;
 import it.prova.gestioneordiniarticolicategorie.model.Categoria;
 
-
 public class CategoriaServiceImpl implements CategoriaService {
-private CategoriaDAO categoriaDAO;
-	
+	private CategoriaDAO categoriaDAO;
+
 	@Override
 	public void setCategoriaDAO(CategoriaDAO categoriaDAO) {
 		this.categoriaDAO = categoriaDAO;
@@ -138,9 +137,9 @@ private CategoriaDAO categoriaDAO;
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-	
+
 	@Override
-	public void aggiungiArticoloACategoria( Categoria categoriaInstance,Articolo articoloInstance) throws Exception {
+	public void aggiungiArticoloACategoria(Categoria categoriaInstance, Articolo articoloInstance) throws Exception {
 
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
@@ -154,7 +153,7 @@ private CategoriaDAO categoriaDAO;
 
 			categoriaInstance.getArticoli().add(articoloInstance);
 			categoriaDAO.insert(categoriaInstance);
-			
+
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
 			entityManager.getTransaction().rollback();
@@ -165,8 +164,9 @@ private CategoriaDAO categoriaDAO;
 		}
 
 	}
+
 	@Override
-	public void rimuoviArticolo(Categoria  categoriaInstance,Articolo articoloInstance) throws Exception {
+	public void rimuoviArticoloDaCategoria(Categoria categoriaInstance, Articolo articoloInstance) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 		try {
 
@@ -177,7 +177,7 @@ private CategoriaDAO categoriaDAO;
 			articoloInstance = entityManager.merge(articoloInstance);
 			categoriaInstance = entityManager.merge(categoriaInstance);
 
-			categoriaDAO.deleteArticoloFromCategoria(articoloInstance.getId(),categoriaInstance.getId());
+			categoriaDAO.deleteArticoloFromCategoria(articoloInstance.getId(), categoriaInstance.getId());
 
 			entityManager.getTransaction().commit();
 		} catch (Exception e) {
@@ -188,10 +188,5 @@ private CategoriaDAO categoriaDAO;
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-
-
-		
-	
-
 
 }

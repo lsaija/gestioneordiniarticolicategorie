@@ -5,13 +5,12 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import it.prova.gestioneordiniarticolicategorie.exception.CancellazioneOrdineConArticoliException;
 import it.prova.gestioneordiniarticolicategorie.model.Ordine;
 
-
-
-public class OrdineDAOImpl implements OrdineDAO{
+public class OrdineDAOImpl implements OrdineDAO {
 	private EntityManager entityManager;
-	
+
 	@Override
 	public List<Ordine> list() throws Exception {
 		return entityManager.createQuery("from Ordine", Ordine.class).getResultList();
@@ -40,6 +39,11 @@ public class OrdineDAOImpl implements OrdineDAO{
 
 	@Override
 	public void delete(Ordine input) throws Exception {
+
+		if (!input.getArticoli().isEmpty()) {
+			throw new CancellazioneOrdineConArticoliException("Non si può eliminare perchè ha articoli");
+		}
+
 		if (input == null) {
 			throw new Exception("Problema valore in input");
 		}
@@ -57,7 +61,5 @@ public class OrdineDAOImpl implements OrdineDAO{
 		query.setParameter("idOrdine", idOrdine);
 		return query.getResultStream().findFirst().orElseGet(null);
 	}
-	
-
 
 }
