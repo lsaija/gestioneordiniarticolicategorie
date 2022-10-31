@@ -1,5 +1,6 @@
 package it.prova.gestioneordiniarticolicategorie.service;
 
+import java.util.Date;
 import java.util.List;
 
 import it.prova.gestioneordiniarticolicategorie.dao.categoria.CategoriaDAO;
@@ -25,5 +26,7 @@ public interface CategoriaService {
 	public void aggiungiArticoloACategoria(Categoria categoriaInstance, Articolo articoloInstance) throws Exception;
 
 	public void rimuoviArticoloDaCategoria(Categoria categoriaInstance, Articolo articoloInstance) throws Exception;
+
+	public List<String> cercaCodicidegliOrdiniDuranteMeseAnno(Date dataInput) throws Exception;
 
 }

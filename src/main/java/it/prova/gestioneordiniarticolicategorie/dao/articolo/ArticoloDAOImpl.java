@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+
 import it.prova.gestioneordiniarticolicategorie.model.Articolo;
 import it.prova.gestioneordiniarticolicategorie.model.Categoria;
 import it.prova.gestioneordiniarticolicategorie.model.Ordine;
@@ -74,6 +75,30 @@ public class ArticoloDAOImpl implements ArticoloDAO {
 		entityManager.createNativeQuery("delete from articolo_categoria where categoria_id=?1 and articolo_id=?2")
 				.setParameter(1, idCategoria).setParameter(2, idArticolo).executeUpdate();
 		this.delete(this.get(idCategoria));
+	}
+	
+	@Override
+	public long sumPrezziByCategory(Categoria categoriaInput) throws Exception {
+		TypedQuery<Long> query = entityManager
+				.createQuery("select sum(a.prezzoSingolo) from Articolo a join a.categorie c where c =:categoria", Long.class);
+		query.setParameter("categoria", categoriaInput);
+		return query.getSingleResult().longValue();
+	}
+	
+	@Override
+	public long sumPrezziStessoDestinatario(String destinatario) throws Exception {
+		if(destinatario.isBlank())
+			throw new Exception("Problema  valore in input");
+		TypedQuery<Long> query = entityManager.createQuery("select sum(a.prezzoSingolo) from Articolo a join  a.ordine o on o.nomeDestinatario=?1",Long.class);
+		query.setParameter(1, destinatario);
+		return query.getSingleResult().longValue();
+	}
+	
+	@Override
+	public List<Articolo> findArticoliInErrore(){
+		TypedQuery<Articolo> query = entityManager.createQuery("from Articolo a join fetch a.ordine o  where  o.dataSpedizione>o.dataScadenza  ",Articolo.class);
+	    return query.getResultList();
+	
 	}
 
 }
