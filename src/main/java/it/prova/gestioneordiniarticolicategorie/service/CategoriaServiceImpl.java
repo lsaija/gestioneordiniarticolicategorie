@@ -189,9 +189,9 @@ public class CategoriaServiceImpl implements CategoriaService {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-	
+
 	@Override
-    public List<String> cercaCodicidegliOrdiniDuranteMeseAnno(Date dataInput) throws Exception {
+	public List<String> cercaCodicidegliOrdiniDuranteMeseAnno(Date dataInput) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
@@ -199,7 +199,7 @@ public class CategoriaServiceImpl implements CategoriaService {
 			categoriaDAO.setEntityManager(entityManager);
 
 			return categoriaDAO.findAllCodiciFromOrdiniDuranteMeseAnno(dataInput);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;

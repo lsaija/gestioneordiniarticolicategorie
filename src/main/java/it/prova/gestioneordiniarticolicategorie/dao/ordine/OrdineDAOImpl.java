@@ -45,9 +45,6 @@ public class OrdineDAOImpl implements OrdineDAO {
 			throw new CancellazioneOrdineConArticoliException("Non si può eliminare perchè ha articoli");
 		}
 
-		if (input == null) {
-			throw new Exception("Problema valore in input");
-		}
 		entityManager.remove(entityManager.merge(input));
 	}
 
@@ -63,7 +60,6 @@ public class OrdineDAOImpl implements OrdineDAO {
 		return query.getResultStream().findFirst().orElseGet(null);
 	}
 
-	
 	@Override
 	public List<Ordine> findAllOrdiniByCategoria(Categoria categoriaInput) throws Exception {
 		if (categoriaInput == null)
@@ -74,7 +70,7 @@ public class OrdineDAOImpl implements OrdineDAO {
 		query.setParameter(1, categoriaInput.getId());
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public List<Categoria> findAllCategorieDistinteByOrdine(Ordine ordineInput) throws Exception {
 		if (ordineInput == null)
@@ -84,23 +80,26 @@ public class OrdineDAOImpl implements OrdineDAO {
 		query.setParameter(1, ordineInput.getId());
 		return query.getResultList();
 	}
-	
+
 	@Override
 	public Ordine findOrdineBySpedizionePiuRecenteCategoria(Categoria categoriaInput) throws Exception {
-		if (categoriaInput == null )//aggiungo controllo
+		if (categoriaInput == null)
 			throw new Exception("Problema valore in input");
 		TypedQuery<Ordine> query = entityManager.createQuery(
-				"select o from Ordine o join o.articoli a join a.categorie c where c.id = ?1 order by o.dataSpedizione desc", Ordine.class);
+				"select o from Ordine o join o.articoli a join a.categorie c where c.id = ?1 order by o.dataSpedizione desc",
+				Ordine.class);
 		query.setParameter(1, categoriaInput.getId());
 		return query.getResultList().stream().findFirst().orElse(null);
 	}
-	
+
 	@Override
-	public List<String> findIndirizziByNumeroSerialeCon(String input) throws Exception{
-		if(input.isBlank() || input.equals(null))
+	public List<String> findIndirizziByNumeroSerialeCon(String input) throws Exception {
+		if (input.isBlank() || input.equals(null))
 			throw new Exception("Problema valore in input");
-		TypedQuery<String> query=entityManager.createQuery("select o.indirizzoDiSpedizione from Ordine o join  o.articoli a where a.numeroSeriale like ?1",String.class);
-		query.setParameter(1,"%"+input+"%");//controllare apici
+		TypedQuery<String> query = entityManager.createQuery(
+				"select o.indirizzoDiSpedizione from Ordine o join  o.articoli a where a.numeroSeriale like ?1",
+				String.class);
+		query.setParameter(1, "%" + input + "%");
 		return query.getResultList();
 	}
 

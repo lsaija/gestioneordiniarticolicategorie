@@ -20,9 +20,11 @@ import it.prova.gestioneordiniarticolicategorie.service.OrdineService;
 public class MyTestOrdiniArticoliCategorie {
 
 	public static void main(String[] args) {
+
 		OrdineService ordineServiceInstance = MyServiceFactory.getOrdineServiceInstance();
 		ArticoloService articoloServiceInstance = MyServiceFactory.getArticoloServiceInstance();
 		CategoriaService categoriaServiceInstance = MyServiceFactory.getCategoriaServiceInstance();
+
 		try {
 
 			System.out.println("In tabella Ordine ci sono " + ordineServiceInstance.listAll().size() + " elementi.");
@@ -35,26 +37,80 @@ public class MyTestOrdiniArticoliCategorie {
 			System.out.println(
 					"*************************************************************************************************");
 
+			// PrimoSet metodo: 1.Inserimento nuovo ordine
 			testInserimentoNuovoOrdine(ordineServiceInstance);
+
+			// PrimoSet metodo: 2.Aggiornamento ordine esistente
 			testAggiornamentoOrdine(ordineServiceInstance);
+
+			// PrimoSet metodo: 3.Inserimento nuovo articolo
 			testInserimentoArticolo(articoloServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 4.Aggiornamento articolo esistente
 			testAggiornamentoArticolo(articoloServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 5.Rimozione di un articolo legato ad un ordine(non a delle
+			// categorie)
 			testRimozioneArticoliDaOrdine(articoloServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 6.Inserimento nuova categoria
 			testInserimentoCategoria(categoriaServiceInstance);
+
+			// PrimoSet metodo: 7.Aggiornamento categoria esistente
 			testAggiornamentoCategoria(categoriaServiceInstance);
-			testAggiungereCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 8.Aggiungi articolo a categoria
 			testAggiungereArticoloACategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
-			testRimuovereCategoriaDaArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 9.Aggiungi categoria ad articolo
+			testAggiungereCategoriaAdArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 10.Rimozione articolo(previo scollegamento dalle categorie)
 			testRimuovereArticoloDaCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 11.Rimozione categoria(previo scollegamento dagli articoli)
+			testRimuovereCategoriaDaArticolo(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// PrimoSet metodo: 12.Rimozione ordine(nel caso in cui sia collegato almeno ad
+			// un articolo lanciare eccezione custom)
 			testRimuovereOrdineConArticoli(articoloServiceInstance, ordineServiceInstance);
-			testCercaOrdiniPerCategoria(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testCercaCategorieDistintePerOrdine(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testCercaOrdinePerDataSpedizionePiuRecenteCategoria(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testSommaPrezziPerUnaCategoria(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testcercaCodiciDegliOrdiniNelMeseAnno(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testSommaPrezziStessoDestinatario(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testCercaIndirizziPerNumeroSerialeCon(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
-			testCercaArticoliConErrore(articoloServiceInstance,categoriaServiceInstance,ordineServiceInstance);
+
+			// SecondoSet metodo: 1.Voglio tutti gli ordini effettuati per una determinata
+			// categoria
+			testCercaOrdiniPerCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// SecondoSet metodo: 2.Voglio tutte le categorie(distinte) degli articoli di un
+			// determinato ordine
+			testCercaCategorieDistintePerOrdine(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
+
+			// SecondoSet metodo: 3.Voglio la somma totale di tutti i prezzi degli articoli
+			// legati ad una categoria
+			testSommaPrezziPerUnaCategoria(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// SecondoSet metodo: 4.Voglio il più recente ordine,in termini di
+			// spedizione,relativo ad una data categoria in input
+			testCercaOrdinePerDataSpedizionePiuRecenteCategoria(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
+
+			// SecondoSet metodo: 5.Voglio la lista distinta di codici di categorie di
+			// ordini effettuati durante l'arco di un mese
+			testcercaCodiciDegliOrdiniNelMeseAnno(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
+
+			// SeondoSet metodo: 6.Voglio la somma totale dei prezzi di tutti gli articoli
+			// indirizzati ad un destinatario
+			testSommaPrezziStessoDestinatario(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
+			// SecondoSet metodo: 7.Voglio la lista distinta di indirizzi di ordini che
+			// contengano una determinata stringa nel numero seriale...
+			testCercaIndirizziPerNumeroSerialeCon(articoloServiceInstance, categoriaServiceInstance,
+					ordineServiceInstance);
+
+			// SecondoSet metodo: 8.Voglio la lista di articoli in 'situazioni strane' vale
+			// a dire quelli in cui l'ordine di appartenenza...
+			testCercaArticoliConErrore(articoloServiceInstance, categoriaServiceInstance, ordineServiceInstance);
+
 			System.out.println(
 					"****************************** fine batteria di test ********************************************");
 			System.out.println(
@@ -73,10 +129,16 @@ public class MyTestOrdiniArticoliCategorie {
 		}
 	}
 
+	/*
+	 * TEST PRIMO SET - CRUD
+	 * 
+	 */
+
 	private static void testInserimentoNuovoOrdine(OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testInserimentoNuovoOrdine inizio.............");
 
 		Ordine ordineInstance = new Ordine("Gianluca", "Via nani", new Date());
+
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testInserimentoNuovoOrdine fallito ");
@@ -100,7 +162,6 @@ public class MyTestOrdiniArticoliCategorie {
 
 		if (ordineInstance.getUpdateDateTime().isAfter(updateDateTimeIniziale))
 			throw new RuntimeException("testAggiornamentoOrdine fallito: le date di aggiornamento sono disallineate ");
-
 		if (!ordineInstance.getCreateDateTime().equals(createDateTimeIniziale))
 			throw new RuntimeException("testAggiornamentoOrdine fallito: la data di creazione è cambiata ");
 
@@ -115,8 +176,10 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testInserimentoArticolo fallito ");
+
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
+
 		if (articoloInstance.getId() == null)
 			throw new RuntimeException("testAggiornamentoOrdine fallito ");
 
@@ -130,7 +193,6 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testAggiornamentoArticolo fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
@@ -159,7 +221,6 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testRimozioneArticoliDaOrdine fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
@@ -184,7 +245,9 @@ public class MyTestOrdiniArticoliCategorie {
 		System.out.println(".......testInserimentoCategoria inizio.............");
 
 		Categoria categoriaInstance = new Categoria("descrizione1", "codice1");
+
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
+
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testInserimentoCategoria fallito ");
 
@@ -207,7 +270,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getUpdateDateTime().isAfter(updateDateTimeIniziale))
 			throw new RuntimeException(
 					"testAggiornamentoCategoria fallito: le date di aggiornamento sono disallineate ");
-
 		if (!categoriaInstance.getCreateDateTime().equals(createDateTimeIniziale))
 			throw new RuntimeException("testAggiornamentoCategoria fallito: la data di creazione è cambiata ");
 
@@ -222,12 +284,10 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testAggiungereCategoriaAdArticolo fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
 			throw new RuntimeException("testAggiungereCategoriaAdArticolo fallito ");
-
 		Categoria categoriaInstance = new Categoria("descrizione1", "codice1");
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
 		if (categoriaInstance.getId() == null)
@@ -252,12 +312,10 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testAggiungereArticoloACategoria fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
 			throw new RuntimeException("testAggiungereArticoloACategoria fallito ");
-
 		Categoria categoriaInstance = new Categoria("descrizione1", "codice1");
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
 		if (categoriaInstance.getId() == null)
@@ -275,7 +333,6 @@ public class MyTestOrdiniArticoliCategorie {
 
 		Categoria categoriaReloaded2 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
-		System.out.println(categoriaReloaded2.getArticoli().size());
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testAggiungereCategoriaAdArticolo fallito: articolo non aggiunto ");
 
@@ -291,32 +348,31 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testRimuovereCategoriaDaArticolo fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
 			throw new RuntimeException("testRimuovereCategoriaDaArticolo fallito ");
-
 		Categoria categoriaInstance = new Categoria("descrizione1", "codice1");
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testRimuovereCategoriaDaArticolo fallito ");
+
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
-
 		Articolo articoloReloaded = articoloServiceInstance
 				.caricaSingoloElementoEagerCategorie(articoloInstance.getId());
 
 		articoloServiceInstance.aggiungiCategoriaAdArticolo(articoloInstance, categoriaInstance);
 		categoriaServiceInstance.aggiungiArticoloACategoria(categoriaInstance, articoloInstance);
 
+		Categoria categoriaReloaded2 = categoriaServiceInstance
+				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 		Articolo articoloReloaded2 = articoloServiceInstance
 				.caricaSingoloElementoEagerCategorie(articoloInstance.getId());
 		if (articoloReloaded2.getCategorie().isEmpty())
 			throw new RuntimeException("testRimuovereCategoriaDaArticolo fallito: categoria non aggiunta ");
 
 		articoloServiceInstance.rimuoviCategoriaDaArticolo(articoloInstance, categoriaInstance);
-		categoriaServiceInstance.rimuovi(categoriaInstance.getId());
 
 		System.out.println(".......testRimuovereCategoriaDaArticolo fine: PASSED.............");
 
@@ -330,12 +386,10 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testAggiungereArticoloACategoria fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
 			throw new RuntimeException("testAggiungereArticoloACategoria fallito ");
-
 		Categoria categoriaInstance = new Categoria("descrizione1", "codice1");
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
 		if (categoriaInstance.getId() == null)
@@ -343,7 +397,6 @@ public class MyTestOrdiniArticoliCategorie {
 
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
-
 		Articolo articoloReloaded = articoloServiceInstance
 				.caricaSingoloElementoEagerCategorie(articoloInstance.getId());
 
@@ -356,7 +409,6 @@ public class MyTestOrdiniArticoliCategorie {
 			throw new RuntimeException("testRimuovereCategoriaDaArticolo fallito: categoria non aggiunta ");
 
 		categoriaServiceInstance.rimuoviArticoloDaCategoria(categoriaInstance, articoloInstance);
-		articoloServiceInstance.rimuovi(articoloInstance.getId());
 
 		System.out.println(".......testRimuovereArticoloDaCategoria fine: PASSED.............");
 
@@ -370,7 +422,6 @@ public class MyTestOrdiniArticoliCategorie {
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testRimuovereOrdineConArticoli fallito ");
-
 		Articolo articoloInstance = new Articolo("decrizione1", "numeroSeriale1", 50, new Date(), ordineInstance);
 		articoloServiceInstance.inserisciNuovo(articoloInstance);
 		if (articoloInstance.getId() == null)
@@ -378,7 +429,6 @@ public class MyTestOrdiniArticoliCategorie {
 
 		Articolo articoloReloaded1 = articoloServiceInstance
 				.caricaSingoloElementoEagerCategorie(articoloInstance.getId());
-		Long idOrdineDaRimuovere = ordineInstance.getId();
 
 		ordineInstance.getArticoli().add(articoloInstance);
 
@@ -397,7 +447,12 @@ public class MyTestOrdiniArticoliCategorie {
 		System.out.println(".......testRimuovereOrdineConArticoli fine: PASSED.............");
 
 	}
-	
+
+	/*
+	 * TEST SECONDO SET - VISITE
+	 * 
+	 */
+
 	private static void testCercaOrdiniPerCategoria(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testCercaOrdiniPerCategoria inizio.............");
@@ -417,7 +472,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testCercaOrdiniPerCategoria fallito ");
 
-		
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -432,10 +486,10 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testCercaOrdiniPerCategoria fallito: categoria non aggiunta ");
 
-		Ordine ordineReloaded =ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
-		if(ordineServiceInstance.cercaOrdiniPerCategoria(categoriaReloaded2).size()<1)
+		Ordine ordineReloaded = ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
+		if (ordineServiceInstance.cercaOrdiniPerCategoria(categoriaReloaded2).size() < 1)
 			throw new RuntimeException("testCercaOrdiniPerCategoria fallito ");
-		
+
 		System.out.println(".......testCercaOrdiniPerCategoria fine: PASSED.............");
 	}
 
@@ -458,7 +512,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testCercaCategorieDistintePerOrdine fallito ");
 
-		
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -473,13 +526,13 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testCercaCategorieDistintePerOrdine: categoria non aggiunta ");
 
-		Ordine ordineReloaded =ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
-		if(ordineServiceInstance.cercaCategorieDistintePerOrdine(ordineReloaded).size()<1)
+		Ordine ordineReloaded = ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
+		if (ordineServiceInstance.cercaCategorieDistintePerOrdine(ordineReloaded).size() < 1)
 			throw new RuntimeException("testCercaCategorieDistintePerOrdine fallito ");
-		
+
 		System.out.println(".......testCercaCategorieDistintePerOrdine fine: PASSED.............");
 	}
-	
+
 	private static void testSommaPrezziPerUnaCategoria(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testSommaPrezziPerUnaCategoria inizio.............");
@@ -499,7 +552,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testSommaPrezziPerUnaCategoria fallito ");
 
-		
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -513,14 +565,13 @@ public class MyTestOrdiniArticoliCategorie {
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testSommaPrezziPerUnaCategoria: categoria non aggiunta ");
-		
-		if(articoloServiceInstance.sommaPrezziDiCategoria(categoriaReloaded2) != 50L)
+
+		if (articoloServiceInstance.sommaPrezziDiCategoria(categoriaReloaded2) != 50L)
 			throw new RuntimeException("testSommaPrezziPerUnaCategoria fallito ");
-		System.out.println(".......testSommaPrezziPerUnaCategoria fine: PASSED.............");	
-		
+		System.out.println(".......testSommaPrezziPerUnaCategoria fine: PASSED.............");
+
 	}
-	
-	
+
 	private static void testCercaOrdinePerDataSpedizionePiuRecenteCategoria(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testCercaOrdinePerDataSpedizionePiuRecenteCategoria inizio.............");
@@ -539,8 +590,7 @@ public class MyTestOrdiniArticoliCategorie {
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testCercaOrdinePerDataSpedizionePiuRecenteCategoria fallito ");
-		
-		
+
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -555,19 +605,19 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testCercaOrdinePerDataSpedizionePiuRecenteCategoria: categoria non aggiunta ");
 
-		Ordine ordineReloaded =ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
-		if(ordineServiceInstance.cercaOrdinePerSpedizionePiuRecenteCategoria(categoriaInstance) ==null)
+		Ordine ordineReloaded = ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
+		if (ordineServiceInstance.cercaOrdinePerSpedizionePiuRecenteCategoria(categoriaInstance) == null)
 			throw new RuntimeException("testCercaOrdinePerDataSpedizionePiuRecenteCategoria fallito ");
-			
+
 		System.out.println(".......testCercaOrdinePerDataSpedizionePiuRecenteCategoria fine: PASSED.............");
 	}
-	//DA ERRORE VUOTO
+
 	private static void testcercaCodiciDegliOrdiniNelMeseAnno(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testcercaCodiciDegliOrdiniNelMeseAnno inizio.............");
-		 
-		Date dataSpedizione=new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01");
-		Ordine ordineInstance = new Ordine("Gianluca", "Via nani", dataSpedizione,new Date());
+
+		Date dataSpedizione = new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01");
+		Ordine ordineInstance = new Ordine("Gianluca", "Via nani", dataSpedizione, new Date());
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testcercaCodiciDegliOrdiniNelMeseAnno fallito ");
@@ -581,8 +631,7 @@ public class MyTestOrdiniArticoliCategorie {
 		categoriaServiceInstance.inserisciNuovo(categoriaInstance);
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testcercaCodiciDegliOrdiniNelMeseAnno fallito ");
-		
-		
+
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -596,25 +645,22 @@ public class MyTestOrdiniArticoliCategorie {
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testcercaCodiciDegliOrdiniNelMeseAnno: categoria non aggiunta ");
-		Articolo articoloReloaded2= articoloServiceInstance
+		Articolo articoloReloaded2 = articoloServiceInstance
 				.caricaSingoloElementoEagerCategorie(articoloInstance.getId());
 		if (articoloReloaded2.getCategorie().isEmpty())
 			throw new RuntimeException("testcercaCodiciDegliOrdiniNelMeseAnno: categoria non aggiunta ");
-		Ordine ordineReloaded =ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
+		Ordine ordineReloaded = ordineServiceInstance.caricaSingoloElementoEagerArticoli(ordineInstance.getId());
 		if (ordineReloaded.getArticoli().isEmpty())
 			throw new RuntimeException("testcercaCodiciDegliOrdiniNelMeseAnno: categoria non aggiunta ");
-		System.out.println(ordineReloaded.getArticoli().size());
-		System.out.println(articoloReloaded2.getCategorie().size());
-		System.out.println(categoriaReloaded2.getArticoli().size());
-	    Date dataCercata=new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01");
-		List<String> prova=categoriaServiceInstance.cercaCodicidegliOrdiniDuranteMeseAnno(dataCercata);
-	    if(prova.isEmpty())
+
+		Date dataCercata = new SimpleDateFormat("yyyy-mm-dd").parse("2022-02-01");
+		List<String> prova = categoriaServiceInstance.cercaCodicidegliOrdiniDuranteMeseAnno(dataCercata);
+		if (prova.isEmpty())
 			throw new RuntimeException("testcercaCodiciDegliOrdiniNelMeseAnno fallito ");
-			
+
 		System.out.println(".......testcercaCodiciDegliOrdiniNelMeseAnno fine: PASSED.............");
 	}
 
-	
 	private static void testSommaPrezziStessoDestinatario(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testSommaPrezziStessoDestinatario inizio.............");
@@ -634,7 +680,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testSommaPrezziStessoDestinatario fallito ");
 
-		
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -648,13 +693,13 @@ public class MyTestOrdiniArticoliCategorie {
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testSommaPrezziStessoDestinatario: categoria non aggiunta ");
-		
-		if(articoloServiceInstance.sommaPrezziStessoDestinatario("destinsomma") != 50L)
+
+		if (articoloServiceInstance.sommaPrezziStessoDestinatario("destinsomma") != 50L)
 			throw new RuntimeException("testSommaPrezziStessoDestinatario fallito ");
-		System.out.println(".......testSommaPrezziStessoDestinatario fine: PASSED.............");	
-		
+		System.out.println(".......testSommaPrezziStessoDestinatario fine: PASSED.............");
+
 	}
-	
+
 	private static void testCercaIndirizziPerNumeroSerialeCon(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testCercaIndirizziPerNumeroSerialeCon inizio.............");
@@ -674,7 +719,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testCercaIndirizziPerNumeroSerialeCon fallito ");
 
-		
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -688,18 +732,19 @@ public class MyTestOrdiniArticoliCategorie {
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testCercaIndirizziPerNumeroSerialeCon: categoria non aggiunta ");
-		
-		if(ordineServiceInstance.cercaIndirizziPerNumeroSerialeCon("numero").isEmpty())
+
+		if (ordineServiceInstance.cercaIndirizziPerNumeroSerialeCon("numero").isEmpty())
 			throw new RuntimeException("testCercaIndirizziPerNumeroSerialeCon fallito ");
-		System.out.println(".......testCercaIndirizziPerNumeroSerialeCon fine: PASSED.............");	
-		
+		System.out.println(".......testCercaIndirizziPerNumeroSerialeCon fine: PASSED.............");
+
 	}
-	
+
 	private static void testCercaArticoliConErrore(ArticoloService articoloServiceInstance,
 			CategoriaService categoriaServiceInstance, OrdineService ordineServiceInstance) throws Exception {
 		System.out.println(".......testCercaArticoliConErrore inizio.............");
 
-		Ordine ordineInstance = new Ordine("destinsomma", "Via nani",new Date(),new SimpleDateFormat("yyyy-mm-dd").parse("2022-09-01"));
+		Ordine ordineInstance = new Ordine("destinsomma", "Via nani", new Date(),
+				new SimpleDateFormat("yyyy-mm-dd").parse("2022-09-01"));
 		ordineServiceInstance.inserisciNuovo(ordineInstance);
 		if (ordineInstance.getId() == null)
 			throw new RuntimeException("testCercaArticoliConErrore fallito ");
@@ -714,7 +759,6 @@ public class MyTestOrdiniArticoliCategorie {
 		if (categoriaInstance.getId() == null)
 			throw new RuntimeException("testCercaArticoliConErrore fallito ");
 
-		
 		Categoria categoriaReloaded1 = categoriaServiceInstance
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 
@@ -728,13 +772,11 @@ public class MyTestOrdiniArticoliCategorie {
 				.caricaSingoloElementoEagerArticoliCategoria(categoriaInstance.getId());
 		if (categoriaReloaded2.getArticoli().isEmpty())
 			throw new RuntimeException("testCercaArticoliConErrore: categoria non aggiunta ");
-		
-		if(articoloServiceInstance.cercaArticoliConErrori().isEmpty())
+
+		if (articoloServiceInstance.cercaArticoliConErrori().isEmpty())
 			throw new RuntimeException("testCercaIndirizziPerNumeroSerialeCon fallito ");
-		System.out.println(".......testCercaIndirizziPerNumeroSerialeCon fine: PASSED.............");	
-		
+		System.out.println(".......testCercaIndirizziPerNumeroSerialeCon fine: PASSED.............");
+
 	}
-	
-	
-	
+
 }

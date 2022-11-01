@@ -21,12 +21,12 @@ public interface OrdineService {
 	public void setOrdineDAO(OrdineDAO ordineDAO);
 
 	public Ordine caricaSingoloElementoEagerArticoli(Long id) throws Exception;
-	
+
 	public List<Ordine> cercaOrdiniPerCategoria(Categoria categoriaInput) throws Exception;
 
 	public List<Categoria> cercaCategorieDistintePerOrdine(Ordine ordineInput) throws Exception;
 
 	public Ordine cercaOrdinePerSpedizionePiuRecenteCategoria(Categoria categoriaInput) throws Exception;
 
-	public List<String> cercaIndirizziPerNumeroSerialeCon(String input) throws Exception; 
+	public List<String> cercaIndirizziPerNumeroSerialeCon(String input) throws Exception;
 }

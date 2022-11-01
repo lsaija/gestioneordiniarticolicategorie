@@ -27,11 +27,11 @@ public interface ArticoloService {
 	public void aggiungiCategoriaAdArticolo(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
 
 	public void rimuoviCategoriaDaArticolo(Articolo articoloInstance, Categoria categoriaInstance) throws Exception;
-	
+
 	public long sommaPrezziDiCategoria(Categoria categoriaInput) throws Exception;
 
 	public long sommaPrezziStessoDestinatario(String destinatario) throws Exception;
 
-	public List<Articolo> cercaArticoliConErrori() throws Exception; 
-	
+	public List<Articolo> cercaArticoliConErrori() throws Exception;
+
 }

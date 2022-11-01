@@ -45,7 +45,6 @@ public class Ordine {
 	public Ordine() {
 
 	}
-	
 
 	public Ordine(String nomeDestinatario, String indirizzoDiSpedizione, Date dataSpedizione, Date dataScadenza) {
 		super();
@@ -54,7 +53,6 @@ public class Ordine {
 		this.dataSpedizione = dataSpedizione;
 		this.dataScadenza = dataScadenza;
 	}
-
 
 	public Ordine(String nomeDestinatario, String indirizzoDiSpedizione, Date dataScadenza) {
 

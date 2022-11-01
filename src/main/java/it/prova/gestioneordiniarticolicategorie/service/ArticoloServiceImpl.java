@@ -215,7 +215,7 @@ public class ArticoloServiceImpl implements ArticoloService {
 	}
 
 	@Override
-    public long sommaPrezziDiCategoria(Categoria categoriaInput) throws Exception {
+	public long sommaPrezziDiCategoria(Categoria categoriaInput) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
 		try {
@@ -223,7 +223,7 @@ public class ArticoloServiceImpl implements ArticoloService {
 			articoloDAO.setEntityManager(entityManager);
 
 			return articoloDAO.sumPrezziByCategory(categoriaInput);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -231,39 +231,39 @@ public class ArticoloServiceImpl implements ArticoloService {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-	
+
 	@Override
-	public long sommaPrezziStessoDestinatario(String destinatario) throws Exception{
-	EntityManager entityManager = EntityManagerUtil.getEntityManager();
+	public long sommaPrezziStessoDestinatario(String destinatario) throws Exception {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
 
-	try {
-
-		articoloDAO.setEntityManager(entityManager);
-
-		return articoloDAO.sumPrezziStessoDestinatario(destinatario);
-		
-	} catch (Exception e) {
-		e.printStackTrace();
-		throw e;
-	} finally {
-		EntityManagerUtil.closeEntityManager(entityManager);
-	}
-    }
-	
-	@Override
-	public List<Articolo> cercaArticoliConErrori() throws Exception{
-		EntityManager entityManager =EntityManagerUtil.getEntityManager();
-		
 		try {
+
 			articoloDAO.setEntityManager(entityManager);
-			
-			return articoloDAO.findArticoliInErrore();
-		}catch(Exception e) {
+
+			return articoloDAO.sumPrezziStessoDestinatario(destinatario);
+
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-		}finally {
+		} finally {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
-	
+	}
+
+	@Override
+	public List<Articolo> cercaArticoliConErrori() throws Exception {
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
+		try {
+			articoloDAO.setEntityManager(entityManager);
+
+			return articoloDAO.findArticoliInErrore();
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		} finally {
+			EntityManagerUtil.closeEntityManager(entityManager);
+		}
+
 	}
 }

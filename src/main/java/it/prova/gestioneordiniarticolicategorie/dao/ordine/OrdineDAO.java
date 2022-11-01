@@ -9,7 +9,7 @@ import it.prova.gestioneordiniarticolicategorie.model.Ordine;
 public interface OrdineDAO extends IBaseDAO<Ordine> {
 	public Ordine findByIdFetchingArticoli(Long idOrdine) throws Exception;
 
-	 public List<Ordine> findAllOrdiniByCategoria(Categoria categoriaInput) throws Exception;
+	public List<Ordine> findAllOrdiniByCategoria(Categoria categoriaInput) throws Exception;
 
 	public List<Categoria> findAllCategorieDistinteByOrdine(Ordine ordineInput) throws Exception;
 

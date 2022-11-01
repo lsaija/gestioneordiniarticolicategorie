@@ -18,6 +18,6 @@ public interface ArticoloDAO extends IBaseDAO<Articolo> {
 
 	public long sumPrezziStessoDestinatario(String destinatario) throws Exception;
 
-	 public List<Articolo> findArticoliInErrore();
+	public List<Articolo> findArticoliInErrore();
 
 }

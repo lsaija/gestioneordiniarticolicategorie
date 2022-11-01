@@ -148,7 +148,7 @@ public class OrdineServiceImpl implements OrdineService {
 			ordineDAO.setEntityManager(entityManager);
 
 			return ordineDAO.findAllOrdiniByCategoria(categoriaInput);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
@@ -160,50 +160,50 @@ public class OrdineServiceImpl implements OrdineService {
 	@Override
 	public List<Categoria> cercaCategorieDistintePerOrdine(Ordine ordineInput) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		
+
 		try {
-			
+
 			ordineDAO.setEntityManager(entityManager);
-			
+
 			return ordineDAO.findAllCategorieDistinteByOrdine(ordineInput);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-		}finally {
+		} finally {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
 
 	@Override
 	public Ordine cercaOrdinePerSpedizionePiuRecenteCategoria(Categoria categoriaInput) throws Exception {
-        EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		
+		EntityManager entityManager = EntityManagerUtil.getEntityManager();
+
 		try {
-			
+
 			ordineDAO.setEntityManager(entityManager);
-			
+
 			return ordineDAO.findOrdineBySpedizionePiuRecenteCategoria(categoriaInput);
-		}catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-		}finally {
+		} finally {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
-	
+
 	@Override
-	public List<String> cercaIndirizziPerNumeroSerialeCon(String input) throws Exception{
+	public List<String> cercaIndirizziPerNumeroSerialeCon(String input) throws Exception {
 		EntityManager entityManager = EntityManagerUtil.getEntityManager();
-		
+
 		try {
-			
+
 			ordineDAO.setEntityManager(entityManager);
-			
+
 			return ordineDAO.findIndirizziByNumeroSerialeCon(input);
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
-		}finally {
+		} finally {
 			EntityManagerUtil.closeEntityManager(entityManager);
 		}
 	}
